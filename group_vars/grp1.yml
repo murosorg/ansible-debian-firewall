@@ -95,8 +95,13 @@ wireguard_interfaces:
         allowed_ips:
           - 10.100.0.2/32
         persistent_keepalive: 25
-        # ana
+        # tel ana
       - public_key: "/lBnq6+qE5NXPWc2tY8B8xzsWBkVFI5VVD/1DzxWIRc="
         allowed_ips:
           - 10.100.0.3/32
+        persistent_keepalive: 25
+        # pc ana
+      - public_key: "Ep7z6Ck8h5GOIDJzO8+mihmWjJJ3xe4T1rnW59JzVw4="
+        allowed_ips:
+          - 10.100.0.4/32
         persistent_keepalive: 25
