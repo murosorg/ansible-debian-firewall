@@ -3,10 +3,10 @@
   hosts: grp1
   become: true
   roles:
-    - network
-    - nftables
-    - wireguard
-    - strongswan
-    - frr
-    - conntrackd
-    - keepalived
+    - { role: network, tags: [network] }
+    - { role: nftables, tags: [nftables] }
+    - { role: wireguard, tags: [wireguard] }
+    - { role: strongswan, tags: [strongswan] }
+    - { role: frr, tags: [frr] }
+    - { role: conntrackd, tags: [conntrackd] }
+    - { role: keepalived, tags: [keepalived] }
