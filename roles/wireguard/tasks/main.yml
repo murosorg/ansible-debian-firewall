@@ -55,7 +55,7 @@
 
     - name: Deploy cluster private key on secondary
       ansible.builtin.copy:
-        content: "{{ item.stdout }}\n"
+        content: "{{ item.content | b64decode }}\n"
         dest: "{{ wireguard_key_directory }}/{{ item.item.name }}.key"
         owner: root
         group: root
@@ -111,6 +111,7 @@
         group: root
         mode: "0600"
       loop: "{{ wireguard_interfaces }}"
+      notify: Redémarrer les tunnels WireGuard
 
 - name: Enable and start WireGuard tunnels (standalone)
   ansible.builtin.systemd:
