@@ -1,0 +1,71 @@
+---
+- name: Verify nftables role
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Stat the deployed configuration file
+      ansible.builtin.stat:
+        path: /etc/nftables.conf
+      register: nft_conf
+
+    - name: Check configuration file attributes
+      ansible.builtin.assert:
+        that:
+          - nft_conf.stat.exists
+          - nft_conf.stat.isreg
+          - nft_conf.stat.mode == "0640"
+          - nft_conf.stat.pw_name == "root"
+          - nft_conf.stat.gr_name == "root"
+
+    - name: Check nftables service is active and enabled
+      ansible.builtin.command:
+        cmd: systemctl is-active nftables
+      register: is_active
+      changed_when: false
+
+    - name: Check nftables service is enabled on boot
+      ansible.builtin.command:
+        cmd: systemctl is-enabled nftables
+      register: is_enabled
+      changed_when: false
+
+    - name: Assert service status
+      ansible.builtin.assert:
+        that:
+          - is_active.stdout == "active"
+          - is_enabled.stdout in ["enabled", "generated"]
+
+    - name: Dump the live ruleset
+      ansible.builtin.command:
+        cmd: nft list ruleset
+      register: ruleset
+      changed_when: false
+
+    - name: Assert tables and chains are present
+      ansible.builtin.assert:
+        that:
+          - "'table inet filter' in ruleset.stdout"
+          - "'chain input' in ruleset.stdout"
+          - "'chain forward' in ruleset.stdout"
+          - "'chain output' in ruleset.stdout"
+
+    - name: Assert built-in protection rules are applied
+      ansible.builtin.assert:
+        that:
+          - "'ct state invalid drop' in ruleset.stdout"
+          - "'ct state established,related accept' in ruleset.stdout or 'ct state { established, related } accept' in ruleset.stdout"
+          - "'iifname \\\"lo\\\" accept' in ruleset.stdout"
+          - "'tcp dport 22 limit rate 10/minute burst 5 packets accept' in ruleset.stdout"
+
+    - name: Dump the deployed configuration file
+      ansible.builtin.command:
+        cmd: cat /etc/nftables.conf
+      register: config_file
+      changed_when: false
+
+    - name: Assert configuration file matches the live ruleset
+      ansible.builtin.assert:
+        that:
+          - "'flush ruleset' in config_file.stdout"
+          - "'policy drop;' in config_file.stdout"
+          - "'policy accept;' in config_file.stdout"

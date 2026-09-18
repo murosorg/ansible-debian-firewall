@@ -1,0 +1,30 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  vars:
+    nftables_config:
+      path: /etc/nftables.conf
+      tables:
+        filter:
+          type: inet
+          chains:
+            input:
+              type: filter
+              hook: input
+              priority: filter
+              policy: drop
+            forward:
+              type: filter
+              hook: forward
+              priority: filter
+              policy: accept
+            output:
+              type: filter
+              hook: output
+              priority: filter
+              policy: accept
+  tasks:
+    - name: Include nftables role
+      ansible.builtin.include_role:
+        name: nftables
