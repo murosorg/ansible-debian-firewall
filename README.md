@@ -1,4 +1,4 @@
-# debian-firewall
+# ansible-debian-firewall
 
 Ansible roles to deploy stateful perimeter firewalls on Debian 13.
 
