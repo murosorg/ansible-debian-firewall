@@ -11,6 +11,12 @@
 <body><header><div class="wrap nav"><a class="brand" href="."><span class="mark"></span><span>Debian Firewall</span></a><nav class="links"><a href="https://github.com/petrouz/ansible-debian-firewall/blob/main/README.md">Documentation</a><a class="github" href="https://github.com/petrouz/ansible-debian-firewall">GitHub</a></nav></div></header><main class="wrap"><section class="hero"><div><div class="kicker">Ansible roles for Debian</div><h1>Firewall infrastructure, defined as code.</h1><p>Deploy and operate a secure Debian firewall with repeatable roles for nftables, routing, VPN, network services and high availability.</p><div class="facts"><span class="fact">Debian 13</span><span class="fact">Ansible-first</span><span class="fact">BSD 2-Clause</span></div><div class="actions"><a class="primary" href="https://github.com/petrouz/ansible-debian-firewall">Explore the repository</a><a class="outline" href="https://github.com/petrouz/ansible-debian-firewall/blob/main/README.md">Read the docs</a></div></div><div class="note"><small>Example playbook</small><pre><code>- hosts: firewalls
   become: true
   roles:
-    - debian_firewall
+    - network
+    - nftables
+    - wireguard
+    - strongswan
+    - frr
+    - keepalived
+    - conntrackd
 
 $ ansible-playbook site.yml</code></pre></div></section><section class="section"><div class="kicker">What you can automate</div><h2>One collection. The whole perimeter.</h2><p>Use standard Debian components and manage the result from a version-controlled playbook.</p><div class="grid"><article class="card"><h3>nftables</h3><p>Stateful filtering, NAT, aliases, logging and rule policy.</p></article><article class="card"><h3>networkd</h3><p>Interfaces, VLANs, routes, bridges and Debian network configuration.</p></article><article class="card"><h3>WireGuard and IPsec</h3><p>Encrypted tunnels, peers and controlled administrative access.</p></article><article class="card"><h3>FRRouting</h3><p>Dynamic routing, policy routing and multi-site connectivity.</p></article><article class="card"><h3>Keepalived and conntrackd</h3><p>High availability, state synchronization and failover.</p></article><article class="card"><h3>systemd and apt</h3><p>Native Debian services, packages and operational tooling.</p></article></div></section><section class="section license"><div><h2>Open by design.</h2><p>Released under the BSD 2-Clause License.</p></div><div class="actions"><a class="outline" href="https://github.com/petrouz/ansible-debian-firewall/blob/main/LICENSE">View the license</a></div></section></main><footer><div class="wrap foot"><span>Debian Firewall · BSD 2-Clause</span><a href="https://github.com/petrouz/ansible-debian-firewall">GitHub</a></div></footer></body></html>
