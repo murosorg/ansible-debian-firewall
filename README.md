@@ -27,4 +27,4 @@ It supports both standalone and HA cluster deployments, with WireGuard and IPsec
 
 ## License
 
-MIT
+BSD 2-Clause License
