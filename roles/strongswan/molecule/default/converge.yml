@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  vars:
+    strongswan_enabled: false
+    strongswan_connections:
+      peer:
+        left: 10.10.10.3
+        right: 10.10.10.4
+        authby: psk
+        psk: test-molecule-psk
+  tasks:
+    - name: Include strongSwan role
+      ansible.builtin.include_role:
+        name: strongswan

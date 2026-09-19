@@ -12,6 +12,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Configure Ansible Vault password
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+        run: printf '%s\n' "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
       - name: Install validation tools
         run: pip install ansible-core ansible-lint yamllint molecule molecule-plugins[docker]
       - name: Install Ansible collections
@@ -29,6 +33,21 @@ jobs:
         run: molecule test -s default
       - name: Run Molecule nftables
         working-directory: roles/nftables
+        env:
+          ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
+        run: molecule test -s default
+      - name: Run Molecule network
+        working-directory: roles/network
+        env:
+          ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
+        run: molecule test -s default
+      - name: Run Molecule strongSwan
+        working-directory: roles/strongswan
+        env:
+          ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
+        run: molecule test -s default
+      - name: Run Molecule WireGuard
+        working-directory: roles/wireguard
         env:
           ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
         run: molecule test -s default
