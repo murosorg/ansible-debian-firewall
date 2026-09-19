@@ -31,6 +31,7 @@ The firewall is defined as code and deployed with standard Ansible. Network conf
 
 | Role | Responsibility |
 | --- | --- |
+| `base` | Chrony, rsyslog and common Debian services |
 | `network` | Interfaces, VLANs, bridges, routes, sysctl and systemd-networkd |
 | `nftables` | Stateful firewall policy, NAT, logging and aliases |
 | `wireguard` | WireGuard interfaces, peers and HA-aware configuration |
@@ -57,7 +58,7 @@ ansible-galaxy collection install -r requirements.yml
 ansible-playbook -i inventory.yml site.yml
 ```
 
-The example inventory and variables are deliberately small. Keep environment-specific values in `host_vars` and `group_vars`, then review the rendered configuration before applying it to production.
+The inventory and variables are deliberately explicit. Keep environment-specific values in `host_vars` and `group_vars`, protect sensitive values with Ansible Vault and review the rendered configuration before applying it to production.
 
 ## Operating model
 
@@ -94,5 +95,4 @@ The project has a dedicated [GitHub Pages website](https://petrouz.github.io/ans
 - [Issues](https://github.com/petrouz/ansible-debian-firewall/issues)
 - [Architecture](docs/architecture.md)
 - [nftables configuration guide](docs/nftables-configuration.md)
-- [Examples](examples/README.md)
 - [Changelog](CHANGELOG.md)

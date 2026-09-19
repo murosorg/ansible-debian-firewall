@@ -1,0 +1,10 @@
+---
+base_packages:
+  - chrony
+  - rsyslog
+base_chrony_enabled: true
+base_chrony_service: chrony
+base_rsyslog_enabled: true
+base_rsyslog_service: rsyslog
+base_rsyslog_config: /etc/rsyslog.d/10-base.conf
+base_rsyslog_rules: []

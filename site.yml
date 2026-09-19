@@ -3,6 +3,7 @@
   hosts: grp1
   become: true
   roles:
+    - { role: base, tags: [base, logging, chrony] }
     - { role: network, tags: [network] }
     - { role: nftables, tags: [nftables] }
     - { role: wireguard, tags: [wireguard] }
