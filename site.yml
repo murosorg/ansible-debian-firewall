@@ -1,5 +1,5 @@
 ---
-- name: Deploy Debian 13 and Debian 14 firewalls
+- name: Deploy Debian firewalls
   hosts: grp1
   become: true
   roles:
