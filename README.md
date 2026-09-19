@@ -1,30 +1,84 @@
-# Wallee Systems Ansible Firewall
+# Ansible Debian Firewall
 
-Ansible roles to deploy stateful perimeter firewalls on Debian 13.
+Production-oriented Ansible roles for building secure, auditable and reproducible Debian 13 firewalls.
 
-This project was born from a simple observation: most open-source firewall projects either rely on proprietary appliances, complex web UIs, or opinionated distributions that hide what is actually happening underneath.
+The project provides a complete perimeter firewall foundation based on standard Debian components. It is designed for teams that need transparent infrastructure, controlled changes and operational consistency without a proprietary appliance or opaque management layer.
 
-This project takes a different approach. It uses plain Debian 13 with nftables, and exposes the full configuration through standard Ansible roles. No abstraction layer, no GUI, no magic. Just a clean, auditable, reproducible firewall that you control entirely.
+## Why this project
 
-It supports both standalone and HA cluster deployments, with WireGuard and IPsec VPN, dynamic routing via FRRouting, and stateful session synchronization via conntrackd.
+The firewall is defined as code and deployed with standard Ansible. Network configuration, packet filtering, VPNs, routing and high availability remain visible in the repository and can be reviewed like any other infrastructure change.
+
+## Features
+
+- Stateful nftables firewall with filtering, NAT, logging and policy defaults
+- Debian 13 and systemd-networkd network configuration
+- WireGuard VPN with peer management
+- StrongSwan IPsec VPN
+- FRRouting for OSPF and BGP dynamic routing
+- Keepalived VRRP high availability
+- conntrackd session state synchronization
+- Standalone and active-passive firewall deployments
+- Reproducible execution through a single playbook
+- BSD 2-Clause licensed and free to adapt
 
 ## Roles
 
-| Role | Description |
-|------|-------------|
-| `network` | Base Debian 13 assertions, interfaces, routes and sysctl via systemd-networkd |
-| `nftables` | Stateful firewall with built-in protection defaults |
-| `keepalived` | VRRP high availability |
-| `conntrackd` | Connection state synchronization |
-| `wireguard` | WireGuard VPN, HA-aware |
-| `strongswan` | IPsec VPN, HA-aware |
-| `frr` | Dynamic routing: OSPF, BGP |
+| Role | Responsibility |
+| --- | --- |
+| `network` | Interfaces, VLANs, bridges, routes, sysctl and systemd-networkd |
+| `nftables` | Stateful firewall policy, NAT, logging and aliases |
+| `wireguard` | WireGuard interfaces, peers and HA-aware configuration |
+| `strongswan` | IPsec tunnels and authentication configuration |
+| `frr` | OSPF, BGP and dynamic routing services |
+| `keepalived` | VRRP virtual IP and failover management |
+| `conntrackd` | Stateful connection synchronization between nodes |
 
 ## Requirements
 
-- Debian 13 (Trixie)
-- Ansible >= 2.15
+- Debian 13 Trixie
+- Ansible 2.15 or newer
+- SSH access with privilege escalation
+- Two nodes for high availability features
+
+## Quick start
+
+Clone the repository, review the inventory and adapt the variables to your environment.
+
+```
+git clone https://github.com/petrouz/ansible-debian-firewall.git
+cd ansible-debian-firewall
+ansible-playbook -i inventory.yml site.yml
+```
+
+The example inventory and variables are deliberately small. Keep environment-specific values in `host_vars` and `group_vars`, then review the rendered configuration before applying it to production.
+
+## Operating model
+
+The recommended workflow is to validate changes in a pre-production environment, review the Ansible diff, apply one node at a time in an HA pair and verify routing, VPN and session state after failover.
+
+Firewall policy should be treated as production code. Changes should be peer reviewed, tested against expected traffic and documented in the changelog.
+
+## Repository layout
+
+```
+site.yml              Main deployment playbook
+inventory.yml         Example inventory
+group_vars/           Shared variables
+host_vars/            Host-specific variables
+roles/                Firewall automation roles
+docs/                 GitHub Pages landing page
+```
+
+## Security notes
+
+This project is infrastructure automation, not a security certification. Review every default, restrict management access, protect secrets with Ansible Vault or an external secret manager and test the resulting policy before production use.
 
 ## License
 
-BSD 2-Clause License
+BSD 2-Clause License. See [LICENSE](LICENSE).
+
+## Links
+
+- [Project website](https://petrouz.github.io/ansible-debian-firewall/)
+- [Issues](https://github.com/petrouz/ansible-debian-firewall/issues)
+- [Changelog](CHANGELOG.md)

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://petrouz.github.io/ansible-debian-firewall/sitemap.xml
