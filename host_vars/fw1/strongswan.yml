@@ -8,4 +8,4 @@ strongswan_connections:
     right: 10.10.10.4
     rightsubnet: 10.30.2.0/24
     authby: psk
-    psk: test-psk-change-me
+    psk: "{{ strongswan_psk }}"
