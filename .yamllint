@@ -1,0 +1,11 @@
+extends: relaxed
+rules:
+  braces: disable
+  brackets: disable
+  indentation: disable
+  line-length:
+    max: 140
+  document-start: disable
+  truthy: disable
+  key-duplicates: disable
+  new-line-at-end-of-file: enable
