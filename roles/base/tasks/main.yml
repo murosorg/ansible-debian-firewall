@@ -1,4 +1,10 @@
 ---
+- name: Assert Debian version
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.os_family == "Debian"
+      - ansible_facts.distribution_major_version | int <= 13
+
 - name: Install base packages
   ansible.builtin.apt:
     name: "{{ base_packages }}"
