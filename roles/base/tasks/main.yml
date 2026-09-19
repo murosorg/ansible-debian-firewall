@@ -5,6 +5,14 @@
     state: present
     update_cache: true
 
+- name: Apply base network hardening
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: true
+  loop: "{{ base_sysctls | dict2items }}"
+
 - name: Configure rsyslog forwarding
   ansible.builtin.template:
     src: rsyslog.conf.j2

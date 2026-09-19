@@ -1,7 +1,19 @@
 ---
 base_packages:
+  - ca-certificates
   - chrony
+  - curl
   - rsyslog
+  - sudo
+base_sysctls:
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.all.accept_source_route: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.default.accept_redirects: 0
+  net.ipv4.conf.default.accept_source_route: 0
+  net.ipv4.conf.default.send_redirects: 0
+  net.ipv6.conf.all.accept_redirects: 0
+  net.ipv6.conf.default.accept_redirects: 0
 base_chrony_enabled: true
 base_chrony_service: chrony
 base_rsyslog_enabled: true
