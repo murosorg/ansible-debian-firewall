@@ -1,0 +1,27 @@
+---
+- name: Verify base role
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: apt
+
+    - name: Verify diagnostic packages
+      ansible.builtin.assert:
+        that:
+          - "item in ansible_facts.packages"
+        loop:
+          - bind9-dnsutils
+          - iproute2
+          - iputils-ping
+          - netcat-openbsd
+          - tcpdump
+          - traceroute
+
+    - name: Verify optional services are disabled
+      ansible.builtin.assert:
+        that:
+          - chrony.service not in ansible_facts.services or ansible_facts.services['chrony.service'].state != 'running'
+          - rsyslog.service not in ansible_facts.services or ansible_facts.services['rsyslog.service'].state != 'running'
+          - snmpd.service not in ansible_facts.services or ansible_facts.services['snmpd.service'].state != 'running'

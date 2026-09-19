@@ -22,7 +22,12 @@ jobs:
         run: ansible-lint
       - name: Check playbook syntax
         run: ansible-playbook site.yml --syntax-check -i inventory.yml
-      - name: Run Molecule
+      - name: Run Molecule base
+        working-directory: roles/base
+        env:
+          ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
+        run: molecule test -s default
+      - name: Run Molecule nftables
         working-directory: roles/nftables
         env:
           ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
