@@ -28,6 +28,14 @@
     mode: '0644'
   notify: Restart systemd-networkd
 
+- name: Create sysctl directory
+  ansible.builtin.file:
+    path: /etc/sysctl.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Configure persistent sysctl parameters
   ansible.builtin.template:
     src: 99-network.conf.j2
