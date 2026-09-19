@@ -23,6 +23,26 @@
     state: present
   when: base_snmpd_enabled
 
+- name: Configure chrony sources
+  ansible.builtin.template:
+    src: chrony.sources.j2
+    dest: "{{ base_chrony_sources_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  when: base_chrony_enabled
+  notify: Restart chrony
+
+- name: Configure snmpd
+  ansible.builtin.template:
+    src: snmpd.conf.j2
+    dest: "{{ base_snmpd_config }}"
+    owner: root
+    group: root
+    mode: "0600"
+  when: base_snmpd_enabled
+  notify: Restart snmpd
+
 - name: Configure rsyslog forwarding
   ansible.builtin.template:
     src: rsyslog.conf.j2
