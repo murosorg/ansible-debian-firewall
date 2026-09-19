@@ -1,14 +1,9 @@
 ---
 base_packages:
   - bind9-dnsutils
-  - ethtool
   - iproute2
   - iputils-ping
-  - lsof
-  - mtr-tiny
   - netcat-openbsd
-  - procps
-  - socat
   - tcpdump
   - traceroute
 base_chrony_enabled: false
