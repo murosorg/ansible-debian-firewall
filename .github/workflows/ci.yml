@@ -23,4 +23,5 @@ jobs:
       - name: Check playbook syntax
         run: ansible-playbook site.yml --syntax-check -i inventory.yml
       - name: Run Molecule
+        working-directory: roles/nftables
         run: molecule test -s default
