@@ -35,21 +35,21 @@
 
 - name: Enable rsyslog
   ansible.builtin.service:
-    name: "{{ base_rsyslog_service }}"
+    name: "rsyslog"
     enabled: true
     state: started
   when: base_rsyslog_enabled
 
 - name: Enable chrony
   ansible.builtin.service:
-    name: "{{ base_chrony_service }}"
+    name: "chrony"
     enabled: true
     state: started
   when: base_chrony_enabled
 
 - name: Enable snmpd
   ansible.builtin.service:
-    name: "{{ base_snmpd_service }}"
+    name: "snmpd"
     enabled: true
     state: started
   when: base_snmpd_enabled

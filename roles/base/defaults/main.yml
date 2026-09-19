@@ -11,14 +11,11 @@ base_packages:
   - socat
   - tcpdump
   - traceroute
-base_chrony_enabled: true
+base_chrony_enabled: false
 base_chrony_package: chrony
-base_chrony_service: chrony
-base_rsyslog_enabled: true
+base_rsyslog_enabled: false
 base_rsyslog_package: rsyslog
-base_rsyslog_service: rsyslog
 base_rsyslog_config: /etc/rsyslog.d/10-base.conf
 base_rsyslog_rules: []
 base_snmpd_enabled: false
 base_snmpd_package: snmpd
-base_snmpd_service: snmpd
