@@ -7,7 +7,9 @@
     strongswan_connections:
       peer:
         left: 10.10.10.3
+        leftsubnet: 10.10.10.0/24
         right: 10.10.10.4
+        rightsubnet: 10.10.10.0/24
         authby: psk
         psk: test-molecule-psk
   tasks:
