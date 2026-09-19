@@ -34,6 +34,7 @@ table {{ table.type | default("inet") }} {{ table_name }} {
 {% elif chain.hook == "forward" and chain.type | default("filter") != "nat" %}
 {% for rule in nftables_default_forward_rules %}
     {{ rule }}
+{% endfor %}
 {% endif %}
 {% for rule in nftables_rules if rule.chain == chain_name %}
     {% if rule.source_interface is defined %}iifname {{ rule.source_interface }} {% endif %}{% if rule.destination_interface is defined %}oifname {{ rule.destination_interface }} {% endif %}{% if rule.source_network is defined %}ip saddr {{ rule.source_network }} {% endif %}{% if rule.source_group is defined %}ip saddr @{{ rule.source_group }} {% endif %}{% if rule.destination_host is defined %}ip daddr {{ nftables_hosts[rule.destination_host] }} {% endif %}{% if rule.destination_group is defined %}ip daddr @{{ rule.destination_group }} {% endif %}{% if rule.protocol is defined %}{{ rule.protocol }} {% if rule.service is defined %}dport @{{ rule.service }}_{{ rule.protocol }}_ports {% elif rule.ports is defined %}dport { {{ rule.ports | join(', ') }} } {% endif %}{% endif %}{% if rule.ct_state is defined %}ct state {{ rule.ct_state }} {% endif %}{{ rule.action | default('accept') }}
