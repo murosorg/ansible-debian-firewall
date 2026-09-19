@@ -3,6 +3,7 @@ base_packages:
   - bind9-dnsutils
   - iproute2
   - iputils-ping
+  - procps
   - netcat-openbsd
   - tcpdump
   - traceroute
