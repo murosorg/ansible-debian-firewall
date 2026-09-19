@@ -11,13 +11,13 @@
       ansible.builtin.assert:
         that:
           - "item in ansible_facts.packages"
-        loop:
-          - bind9-dnsutils
-          - iproute2
-          - iputils-ping
-          - netcat-openbsd
-          - tcpdump
-          - traceroute
+      loop:
+        - bind9-dnsutils
+        - iproute2
+        - iputils-ping
+        - netcat-openbsd
+        - tcpdump
+        - traceroute
 
     - name: Verify optional services are disabled
       ansible.builtin.assert:
