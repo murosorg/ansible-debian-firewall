@@ -1,6 +1,12 @@
 # Ansible Debian Firewall
 
+[![Debian 13](https://img.shields.io/badge/Debian-13-D70A53?logo=debian&logoColor=white)](https://www.debian.org/releases/trixie/) [![Ansible](https://img.shields.io/badge/Ansible-2.15%2B-EE0000?logo=ansible&logoColor=white)](https://docs.ansible.com/) [![License](https://img.shields.io/badge/license-BSD--2--Clause-087f78.svg)](LICENSE) [![Website](https://img.shields.io/badge/website-GitHub%20Pages-1769aa)](https://petrouz.github.io/ansible-debian-firewall/)
+
 Production-oriented Ansible roles for building secure, auditable and reproducible Debian 13 firewalls.
+
+> **Project website:** [petrouz.github.io/ansible-debian-firewall](https://petrouz.github.io/ansible-debian-firewall/)
+>
+> The website presents the architecture, supported capabilities and operating model of this repository.
 
 The project provides a complete perimeter firewall foundation based on standard Debian components. It is designed for teams that need transparent infrastructure, controlled changes and operational consistency without a proprietary appliance or opaque management layer.
 
@@ -76,6 +82,10 @@ This project is infrastructure automation, not a security certification. Review 
 ## License
 
 BSD 2-Clause License. See [LICENSE](LICENSE).
+
+## Project website
+
+The project has a dedicated [GitHub Pages website](https://petrouz.github.io/ansible-debian-firewall/) with an overview of the firewall architecture, Ansible roles, security model and deployment capabilities.
 
 ## Links
 
