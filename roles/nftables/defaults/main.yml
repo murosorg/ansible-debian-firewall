@@ -5,6 +5,9 @@ nftables_config:
   tables: {}
   path: /etc/nftables.conf
   service: nftables
+nftables_interfaces:
+  wan: eth0
+  lan: eth1
 nftables_services: {}
 nftables_hosts: {}
 nftables_host_groups: {}
