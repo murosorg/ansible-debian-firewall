@@ -56,5 +56,8 @@
 
 - name: Wait for network interfaces
   ansible.builtin.wait_for:
-    path: /sys/class/net/eth1
+    path: /sys/class/net/{{ interface.name }}
     timeout: 30
+  loop: '{{ network_interfaces }}'
+  loop_control:
+    loop_var: interface
