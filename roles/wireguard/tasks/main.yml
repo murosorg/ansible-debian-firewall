@@ -111,7 +111,7 @@
         group: root
         mode: "0600"
       loop: "{{ wireguard_interfaces }}"
-      notify: Redémarrer les tunnels WireGuard
+      notify: Restart WireGuard tunnels
 
 - name: Enable and start WireGuard tunnels (standalone)
   ansible.builtin.systemd:

@@ -6,7 +6,7 @@
         name: frr
         state: present
         update_cache: true
-    - name: Déployer les daemons FRR
+    - name: Deploy FRR daemons
       ansible.builtin.template:
         src: daemons.j2
         dest: /etc/frr/daemons

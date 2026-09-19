@@ -44,7 +44,7 @@
     - name: Assert tables and chains are present
       ansible.builtin.assert:
         that:
-          - "'table inet filter' in ruleset.stdout"
+          - "'table inet firewall' in ruleset.stdout"
           - "'chain input' in ruleset.stdout"
           - "'chain forward' in ruleset.stdout"
           - "'chain output' in ruleset.stdout"
@@ -56,6 +56,8 @@
           - "'ct state established,related accept' in ruleset.stdout or 'ct state { established, related } accept' in ruleset.stdout"
           - "'iifname \\\"lo\\\" accept' in ruleset.stdout"
           - "'tcp dport 22 limit rate 10/minute burst 5 packets accept' in ruleset.stdout"
+          - "'set web_tcp_ports' in ruleset.stdout"
+          - "'set public_web' in ruleset.stdout"
 
     - name: Dump the deployed configuration file
       ansible.builtin.command:

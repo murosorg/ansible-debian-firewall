@@ -5,7 +5,7 @@
     state: present
     update_cache: true
 
-- name: Déployer la configuration nftables
+- name: Deploy nftables configuration
   ansible.builtin.template:
     src: nftables.conf.j2
     dest: "{{ nftables_config.path | default('/etc/nftables.conf') }}"
@@ -13,9 +13,9 @@
     group: root
     mode: "0640"
     validate: "nft -c -f %s"
-  notify: Recharger nftables
+  notify: Reload nftables
 
-- name: Activer nftables
+- name: Enable nftables
   ansible.builtin.service:
     name: "{{ nftables_config.service | default('nftables') }}"
     enabled: true
