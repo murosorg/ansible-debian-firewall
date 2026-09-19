@@ -5,13 +5,23 @@
     state: present
     update_cache: true
 
-- name: Apply base network hardening
-  ansible.posix.sysctl:
-    name: "{{ item.key }}"
-    value: "{{ item.value }}"
+- name: Install chrony
+  ansible.builtin.apt:
+    name: "{{ base_chrony_package }}"
     state: present
-    reload: true
-  loop: "{{ base_sysctls | dict2items }}"
+  when: base_chrony_enabled
+
+- name: Install rsyslog
+  ansible.builtin.apt:
+    name: "{{ base_rsyslog_package }}"
+    state: present
+  when: base_rsyslog_enabled
+
+- name: Install snmpd
+  ansible.builtin.apt:
+    name: "{{ base_snmpd_package }}"
+    state: present
+  when: base_snmpd_enabled
 
 - name: Configure rsyslog forwarding
   ansible.builtin.template:
@@ -36,3 +46,10 @@
     enabled: true
     state: started
   when: base_chrony_enabled
+
+- name: Enable snmpd
+  ansible.builtin.service:
+    name: "{{ base_snmpd_service }}"
+    enabled: true
+    state: started
+  when: base_snmpd_enabled
