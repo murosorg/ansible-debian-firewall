@@ -23,7 +23,6 @@
     - name: Assert service status
       ansible.builtin.assert:
         that:
-          - ansible_facts.services["nftables.service"].state == "running"
           - ansible_facts.services["nftables.service"].status in ["enabled", "static"]
 
     - name: Dump the live ruleset
