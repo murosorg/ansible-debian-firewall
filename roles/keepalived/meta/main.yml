@@ -1,5 +1,7 @@
 ---
 galaxy_info:
+  namespace: petrouz
+  role_name: keepalived
   author: Petrouz
   description: Firewall Debian 13
   license: BSD-2-Clause
