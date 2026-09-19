@@ -5,6 +5,20 @@ define {{ name }} = {{ value }}
 {% endfor %}
 {% for table_name, table in (nftables_config.tables | default({})).items() %}
 table {{ table.type | default("inet") }} {{ table_name }} {
+{% for name, addresses in (nftables_networks | default({})).items() %}
+  set {{ name }} { type ipv4_addr; flags interval; elements = { {{ addresses | join(', ') }} } }
+{% endfor %}
+{% for name, address in (nftables_hosts | default({})).items() %}
+  set {{ name }} { type ipv4_addr; elements = { {{ address }} } }
+{% endfor %}
+{% for name, group in (nftables_host_groups | default({})).items() %}
+  set {{ name }} { type ipv4_addr; elements = { {% for host in group.hosts | default([]) %}{{ nftables_hosts[host] }}{% if not loop.last %}, {% endif %}{% endfor %} } }
+{% endfor %}
+{% for service_name, service in (nftables_services | default({})).items() %}
+{% for protocol, ports in (service.protocols | default({})).items() %}
+  set {{ service_name }}_{{ protocol }}_ports { type inet_service; elements = { {{ ports | join(', ') }} } }
+{% endfor %}
+{% endfor %}
 {% for chain_name, chain in (table.chains | default({})).items() %}
   chain {{ chain_name }} {
 {% if chain.hook is defined %}
@@ -20,8 +34,10 @@ table {{ table.type | default("inet") }} {{ table_name }} {
 {% elif chain.hook == "forward" and chain.type | default("filter") != "nat" %}
 {% for rule in nftables_default_forward_rules %}
     {{ rule }}
-{% endfor %}
 {% endif %}
+{% for rule in nftables_rules if rule.chain == chain_name %}
+    {% if rule.source_interface is defined %}iifname {{ rule.source_interface }} {% endif %}{% if rule.destination_interface is defined %}oifname {{ rule.destination_interface }} {% endif %}{% if rule.source_network is defined %}ip saddr {{ rule.source_network }} {% endif %}{% if rule.source_group is defined %}ip saddr @{{ rule.source_group }} {% endif %}{% if rule.destination_host is defined %}ip daddr {{ nftables_hosts[rule.destination_host] }} {% endif %}{% if rule.destination_group is defined %}ip daddr @{{ rule.destination_group }} {% endif %}{% if rule.protocol is defined %}{{ rule.protocol }} {% if rule.service is defined %}dport @{{ rule.service }}_{{ rule.protocol }}_ports {% elif rule.ports is defined %}dport { {{ rule.ports | join(', ') }} } {% endif %}{% endif %}{% if rule.ct_state is defined %}ct state {{ rule.ct_state }} {% endif %}{{ rule.action | default('accept') }}
+{% endfor %}
 {% for rule in chain.rules | default([]) %}
 {% if rule.raw is defined %}
     {{ rule.raw }}

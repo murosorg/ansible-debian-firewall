@@ -7,7 +7,6 @@ frr_enabled: true
 
 nftables_config:
   vars:
-    lan_network: 10.20.10.0/24
     wan_interface: eth0
     lan_interface: eth1
   tables:
@@ -17,35 +16,9 @@ nftables_config:
         input:
           hook: input
           policy: drop
-          rules:
-            - raw: ip protocol ospf accept
-            - raw: iifname $lan_interface ip protocol 112 accept
-            - raw: iifname $lan_interface udp dport 3780 accept
-            - raw: iifname $wan_interface udp dport 51820 accept
-            - raw: iifname $lan_interface udp dport 51820 accept
         forward:
           hook: forward
           policy: drop
-          rules:
-            - raw: >-
-                iifname $lan_interface oifname $wan_interface
-                ip saddr $lan_network accept
-            - raw: >-
-                iifname $wan_interface oifname $lan_interface
-                tcp dport { 80, 443 } ip daddr 10.20.10.10 accept
-            - raw: >-
-                iifname "wg0" oifname $wan_interface
-                ip saddr 10.100.0.0/27 accept
-            - raw: >-
-                iifname $wan_interface oifname "wg0"
-                ip daddr 10.100.0.0/27 ct state established,related accept
-            - raw: >-
-                iifname "wg0" oifname $lan_interface
-                ip daddr 10.20.10.0/24 accept
-            - raw: >-
-                iifname $wan_interface oifname $lan_interface
-                tcp dport { 25, 465, 587, 993 }
-                ip daddr 10.20.10.80 accept
         output:
           hook: output
           policy: accept
@@ -53,21 +26,79 @@ nftables_config:
           type: nat
           hook: postrouting
           policy: accept
-          rules:
-            - raw: oifname $wan_interface ip saddr $lan_network masquerade
-            - raw: oifname $wan_interface ip saddr 10.100.0.0/27 masquerade
         prerouting:
           type: nat
           hook: prerouting
           policy: accept
-          rules:
-            - raw: >-
-                iifname $wan_interface tcp dport 80 dnat ip to 10.20.10.10:80
-            - raw: >-
-                iifname $wan_interface tcp dport 443 dnat ip to 10.20.10.10:443
-            - raw: >-
-                iifname $wan_interface tcp dport { 25, 465, 587, 993 }
-                dnat ip to 10.20.10.80
+
+nftables_networks:
+  lan: [10.20.10.0/24]
+  vpn: [10.100.0.0/27]
+
+nftables_hosts:
+  web01: 10.20.10.10
+  mail01: 10.20.10.80
+
+nftables_host_groups:
+  public_web:
+    hosts: [web01]
+  mail_servers:
+    hosts: [mail01]
+
+nftables_services:
+  web:
+    protocols:
+      tcp: [80, 443]
+  mail:
+    protocols:
+      tcp: [25, 465, 587, 993]
+  wireguard:
+    protocols:
+      udp: [51820]
+
+nftables_rules:
+  - chain: input
+    source_interface: $lan_interface
+    protocol: udp
+    ports: [3780]
+    action: accept
+  - chain: input
+    source_interface: $wan_interface
+    service: wireguard
+    protocol: udp
+    action: accept
+  - chain: forward
+    source_interface: $lan_interface
+    destination_interface: $wan_interface
+    source_network: 10.20.10.0/24
+    action: accept
+  - chain: forward
+    source_interface: $wan_interface
+    destination_interface: $lan_interface
+    destination_group: public_web
+    service: web
+    protocol: tcp
+    action: accept
+  - chain: forward
+    source_interface: $wan_interface
+    destination_interface: $lan_interface
+    destination_group: mail_servers
+    service: mail
+    protocol: tcp
+    action: accept
+  - chain: forward
+    source_interface: wg0
+    destination_interface: $lan_interface
+    source_network: 10.100.0.0/27
+    action: accept
+  - chain: postrouting
+    source_network: 10.20.10.0/24
+    destination_interface: $wan_interface
+    action: masquerade
+  - chain: postrouting
+    source_network: 10.100.0.0/27
+    destination_interface: $wan_interface
+    action: masquerade
 
 keepalived_virtual_ipaddresses:
   - address: 10.10.10.2
