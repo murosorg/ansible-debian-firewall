@@ -92,5 +92,7 @@ The project has a dedicated [GitHub Pages website](https://petrouz.github.io/ans
 
 - [Project website](https://petrouz.github.io/ansible-debian-firewall/)
 - [Issues](https://github.com/petrouz/ansible-debian-firewall/issues)
+- [Architecture](docs/architecture.md)
 - [nftables configuration guide](docs/nftables-configuration.md)
+- [Examples](examples/README.md)
 - [Changelog](CHANGELOG.md)

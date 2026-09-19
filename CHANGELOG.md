@@ -1,14 +1,17 @@
 # Changelog
 
-## [1.0.0] - 2026-09-04
+All notable changes to this project are documented here.
 
-### Added
-- Initial release
-- nftables role with built-in SYN flood, ICMP and SSH protection
-- Keepalived VRRP role with nopreempt by default
-- conntrackd role with bidirectional session synchronization
-- WireGuard role with HA-aware tunnel management
-- strongSwan role with HA-aware tunnel management
-- FRRouting role with OSPF, BGP, BFD and staticd support
-- systemd-networkd network role with sysctl management
-- System role with Debian 13 assertion
+## Unreleased
+
+- Added structured nftables services, hosts, groups and rules
+- Added support for Debian 13 and Debian 14
+- Added Molecule validation for the nftables role
+- Added GitHub Actions validation with yamllint, ansible-lint and syntax checks
+- Added separated role-specific variable files
+- Improved DNAT, WireGuard management access and HA firewall rules
+
+## 0.1.0
+
+- Initial Ansible firewall automation for Debian
+- Added nftables, WireGuard, Keepalived, FRRouting, StrongSwan and conntrackd roles

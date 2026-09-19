@@ -1,0 +1,33 @@
+nftables_interfaces:
+  wan: eth0
+  lan: eth1
+
+nftables_networks:
+  lan: [10.20.10.0/24]
+  vpn: [10.100.0.0/27]
+
+nftables_hosts:
+  web01: 10.20.10.10
+
+nftables_host_groups:
+  public_web:
+    hosts: [web01]
+
+nftables_services:
+  web:
+    protocols:
+      tcp: [80, 443]
+
+nftables_rules:
+  - chain: forward
+    source_interface: lan
+    destination_interface: wan
+    source_network: 10.20.10.0/24
+    action: accept
+  - chain: forward
+    source_interface: wan
+    destination_interface: lan
+    destination_group: public_web
+    service: web
+    protocol: tcp
+    action: accept
