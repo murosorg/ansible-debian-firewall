@@ -1,8 +1,7 @@
+---
 nftables_node_name: fw2
 nftables_node_address: 10.20.10.4
 nftables_peer_address: 10.20.10.3
-
----
 keepalived_node_id: fw2
 keepalived_priority: 100
 keepalived_ha_address: 10.20.10.4
