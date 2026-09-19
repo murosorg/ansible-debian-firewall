@@ -6,7 +6,7 @@
     nftables_config:
       path: /etc/nftables.conf
       tables:
-        filter:
+        firewall:
           type: inet
           chains:
             input:
