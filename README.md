@@ -53,6 +53,7 @@ Clone the repository, review the inventory and adapt the variables to your envir
 ```
 git clone https://github.com/petrouz/ansible-debian-firewall.git
 cd ansible-debian-firewall
+ansible-galaxy collection install -r requirements.yml
 ansible-playbook -i inventory.yml site.yml
 ```
 
@@ -91,4 +92,5 @@ The project has a dedicated [GitHub Pages website](https://petrouz.github.io/ans
 
 - [Project website](https://petrouz.github.io/ansible-debian-firewall/)
 - [Issues](https://github.com/petrouz/ansible-debian-firewall/issues)
+- [nftables configuration guide](docs/nftables-configuration.md)
 - [Changelog](CHANGELOG.md)
