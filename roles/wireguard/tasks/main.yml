@@ -121,6 +121,7 @@
   loop: "{{ wireguard_interfaces }}"
   when:
     - wireguard_enabled
+    - wireguard_manage_service
     - not keepalived_enabled | default(false)
 
 - name: Check keepalived VIP presence (HA)
