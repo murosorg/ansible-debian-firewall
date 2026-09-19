@@ -1,4 +1,0 @@
-keepalived_node_id: 1
-keepalived_priority: 150
-keepalived_ha_address: 10.10.10.3
-keepalived_peer_ha_address: 10.10.10.4
