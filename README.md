@@ -1,8 +1,8 @@
 # Ansible Debian Firewall
 
-[![Debian 13](https://img.shields.io/badge/Debian-13-D70A53?logo=debian&logoColor=white)](https://www.debian.org/releases/trixie/) [![Ansible](https://img.shields.io/badge/Ansible-2.15%2B-EE0000?logo=ansible&logoColor=white)](https://docs.ansible.com/) [![License](https://img.shields.io/badge/license-BSD--2--Clause-087f78.svg)](LICENSE) [![Website](https://img.shields.io/badge/website-GitHub%20Pages-1769aa)](https://petrouz.github.io/ansible-debian-firewall/)
+[![Debian 14](https://img.shields.io/badge/Debian-14-D70A53?logo=debian&logoColor=white)](https://www.debian.org/releases/forky/) [![Ansible](https://img.shields.io/badge/Ansible-2.15%2B-EE0000?logo=ansible&logoColor=white)](https://docs.ansible.com/) [![License](https://img.shields.io/badge/license-BSD--2--Clause-087f78.svg)](LICENSE) [![Website](https://img.shields.io/badge/website-GitHub%20Pages-1769aa)](https://petrouz.github.io/ansible-debian-firewall/)
 
-Production-oriented Ansible roles for building secure, auditable and reproducible Debian 13 firewalls.
+Production-oriented Ansible roles for building secure, auditable and reproducible Debian 14 firewalls.
 
 > **Project website:** [petrouz.github.io/ansible-debian-firewall](https://petrouz.github.io/ansible-debian-firewall/)
 >
@@ -17,7 +17,7 @@ The firewall is defined as code and deployed with standard Ansible. Network conf
 ## Features
 
 - Stateful nftables firewall with filtering, NAT, logging and policy defaults
-- Debian 13 and systemd-networkd network configuration
+- Debian 14 and systemd-networkd network configuration
 - WireGuard VPN with peer management
 - StrongSwan IPsec VPN
 - FRRouting for OSPF and BGP dynamic routing
@@ -41,7 +41,7 @@ The firewall is defined as code and deployed with standard Ansible. Network conf
 
 ## Requirements
 
-- Debian 13 Trixie
+- Debian 14 Forky
 - Ansible 2.15 or newer
 - SSH access with privilege escalation
 - Two nodes for high availability features
