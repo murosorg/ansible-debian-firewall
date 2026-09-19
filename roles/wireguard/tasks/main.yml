@@ -37,7 +37,7 @@
       when:
         - item.private_key is not defined or item.private_key | length == 0
         - inventory_hostname == wireguard_ha_primary
-        - keepalived_enabled
+        - keepalived_enabled | default(false)
       no_log: true
 
     - name: Fetch cluster private key from primary
@@ -48,7 +48,7 @@
       when:
         - item.private_key is not defined or item.private_key | length == 0
         - inventory_hostname != wireguard_ha_primary
-        - keepalived_enabled
+        - keepalived_enabled | default(false)
       delegate_to: "{{ wireguard_ha_primary }}"
       run_once: false
       no_log: true
@@ -64,7 +64,7 @@
       when:
         - item.private_key is not defined or item.private_key | length == 0
         - inventory_hostname != wireguard_ha_primary
-        - keepalived_enabled
+        - keepalived_enabled | default(false)
       no_log: true
 
     # Standalone: generate locally per host
@@ -75,7 +75,7 @@
       loop: "{{ wireguard_interfaces }}"
       when:
         - item.private_key is not defined or item.private_key | length == 0
-        - not keepalived_enabled
+        - not keepalived_enabled | default(false)
       no_log: true
 
     - name: Compute public keys
@@ -121,7 +121,7 @@
   loop: "{{ wireguard_interfaces }}"
   when:
     - wireguard_enabled
-    - not keepalived_enabled
+    - not keepalived_enabled | default(false)
 
 - name: Check keepalived VIP presence (HA)
   ansible.builtin.command:
@@ -130,7 +130,7 @@
   changed_when: false
   when:
     - wireguard_enabled
-    - keepalived_enabled
+    - keepalived_enabled | default(false)
 
 - name: Manage WireGuard tunnels based on firewall role (HA)
   ansible.builtin.systemd:
@@ -140,4 +140,4 @@
   loop: "{{ wireguard_interfaces }}"
   when:
     - wireguard_enabled
-    - keepalived_enabled
+    - keepalived_enabled | default(false)
