@@ -58,6 +58,18 @@ nftables_services:
 
 nftables_rules:
   - chain: input
+    protocol_raw: ip protocol ospf
+    action: accept
+  - chain: input
+    source_interface: $lan_interface
+    protocol_raw: ip protocol 112
+    action: accept
+  - chain: input
+    source_interface: $lan_interface
+    service: wireguard
+    protocol: udp
+    action: accept
+  - chain: input
     source_interface: $lan_interface
     protocol: udp
     ports: [3780]
@@ -110,8 +122,19 @@ nftables_rules:
     protocol: tcp
     service: mail
     destination_host: mail01
-    destination_port: 25
     action: dnat
+  - chain: forward
+    source_interface: $wan_interface
+    destination_interface: wg0
+    destination_network: 10.100.0.0/27
+    ct_state: established,related
+    action: accept
+  - chain: forward
+    source_interface: wg0
+    destination_interface: $lan_interface
+    destination_network: 10.20.10.0/24
+    source_network: 10.100.0.0/27
+    action: accept
   - chain: postrouting
     source_network: 10.20.10.0/24
     destination_interface: $wan_interface
