@@ -24,4 +24,6 @@ jobs:
         run: ansible-playbook site.yml --syntax-check -i inventory.yml
       - name: Run Molecule
         working-directory: roles/nftables
+        env:
+          ANSIBLE_ROLES_PATH: ${{ github.workspace }}/roles
         run: molecule test -s default
